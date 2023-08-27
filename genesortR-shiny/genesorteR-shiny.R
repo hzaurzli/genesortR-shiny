@@ -66,11 +66,15 @@ server <- function(input, output, session) {
     
     data = dataInput1()
     
-    sg = sortGenes(data$exp, data$cellType)
-    mm = getMarkers(sg, quant = input$level)
-    dd = data.frame(mm$gene_shannon_index[mm$markers])
-    dat <<- data.frame(Gene = row.names(dd),Shannon_index = dd[,1])
-    
+    if(is.null(data)){
+      warning("Please upload files!")
+    } 
+    else{
+      sg = sortGenes(data$exp, data$cellType)
+      mm = getMarkers(sg, quant = input$level)
+      dd = data.frame(mm$gene_shannon_index[mm$markers])
+      dat <<- data.frame(Gene = row.names(dd),Shannon_index = dd[,1])
+    }
   }, options = list(pageLength = 10))
   
   
